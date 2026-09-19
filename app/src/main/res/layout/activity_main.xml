@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_dark"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/appTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="SECOND PLAYER"
+        android:textColor="@color/accent_purple"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.1"/>
+
+    <!-- كارت الألبوم -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/albumCard"
+        android:layout_width="260dp"
+        android:layout_height="260dp"
+        android:layout_below="@id/appTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        app:cardBackgroundColor="@color/card_bg"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="8dp">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:src="@android:drawable/ic_media_play"
+            app:tint="@color/accent_purple" />
+    </androidx.cardview.widget.CardView>
+
+    <!-- اسم الأغنية والفنان -->
+    <TextView
+        android:id="@+id/songTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/albumCard"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:text="Chill Stream"
+        android:textColor="@color/text_white"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/artistName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/songTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:text="Online Audio Stream"
+        android:textColor="@color/text_gray"
+        android:textSize="14sp" />
+
+    <!-- شريط التحكم والأزرار -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPlay"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:text="تشغيل الموسيقى"
+            android:textSize="16sp"
+            app:cornerRadius="32dp"
+            app:backgroundTint="@color/accent_purple"/>
+    </LinearLayout>
+
+</RelativeLayout>
