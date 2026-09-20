@@ -1,15 +1,7 @@
 # Second Player
 
-Android audio-stream player built with Kotlin, AndroidX and Media3 ExoPlayer.
+مشغل موسيقى Android: مكتبة ملفات الجهاز، اختيار ملفات صوتية، تشغيل بث HTTP/HTTPS، عناصر تحكم أساسية، بحث، مفضلة، مؤقت نوم، وتشغيل عبر Media3 MediaSession في الخلفية مع إشعار وتحكم النظام.
 
-## Build
+البناء: `gradle assembleDebug` (JDK 17 و Android SDK).
 
-The GitHub Actions workflow builds `app-debug.apk` with JDK 17 and Gradle 8.2.
-
-## Use
-
-1. Enter an HTTP/HTTPS audio-stream URL.
-2. Press **تشغيل الموسيقى**.
-3. Press **إيقاف مؤقت** to pause.
-
-The project intentionally does not contain a hard-coded stream URL.
+ملاحظة: إدارة قوائم التشغيل في هذه النسخة واجهة أولية، كما أن تنزيل الروابط المباشرة غير مضمن بعد؛ البث المباشر لا يصبح متاحًا دون إنترنت إلا بعد حفظ الملف محليًا. أذونات القراءة تطلبها نسخة Android بحسب إصدارها.
