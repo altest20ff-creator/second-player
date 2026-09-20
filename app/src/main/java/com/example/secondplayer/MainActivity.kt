@@ -2,11 +2,13 @@ package com.example.secondplayer
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
@@ -17,12 +19,12 @@ import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.secondplayer.adapter.AudioAdapter
 import com.example.secondplayer.adapter.FolderAdapter
 import com.example.secondplayer.model.AudioItem
 import com.example.secondplayer.model.FolderItem
 import com.example.secondplayer.repository.MediaRepository
-import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,8 +34,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvTrackCount: TextView
     private lateinit var tvNowPlayingTitle: TextView
     private lateinit var tvNowPlayingArtist: TextView
-    private lateinit var tvCurrentTime: TextView
-    private lateinit var tvTotalDuration: TextView
+    private lateinit var ivBottomAlbumArt: ImageView
     private lateinit var seekBar: SeekBar
     private lateinit var btnPlayPause: Button
     private lateinit var btnNext: Button
@@ -57,9 +58,6 @@ class MainActivity : AppCompatActivity() {
                     val duration = it.duration.coerceAtLeast(1)
                     seekBar.max = duration.toInt()
                     seekBar.progress = currentPos.toInt()
-
-                    tvCurrentTime.text = formatTime(currentPos)
-                    tvTotalDuration.text = formatTime(duration)
 
                     handler.postDelayed(this, 1000)
                 }
@@ -85,8 +83,7 @@ class MainActivity : AppCompatActivity() {
         tvTrackCount = findViewById(R.id.tvTrackCount)
         tvNowPlayingTitle = findViewById(R.id.tvNowPlayingTitle)
         tvNowPlayingArtist = findViewById(R.id.tvNowPlayingArtist)
-        tvCurrentTime = findViewById(R.id.tvCurrentTime)
-        tvTotalDuration = findViewById(R.id.tvTotalDuration)
+        ivBottomAlbumArt = findViewById(R.id.ivBottomAlbumArt)
         seekBar = findViewById(R.id.seekBar)
         btnPlayPause = findViewById(R.id.btnPlayPause)
         btnNext = findViewById(R.id.btnNext)
@@ -125,14 +122,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnCategoryTracks.setOnClickListener {
+            updateTabHighlight(btnCategoryTracks)
             showTracksView(allTracks, "جميع المسارات الصوتية")
         }
 
         btnCategoryFolders.setOnClickListener {
+            updateTabHighlight(btnCategoryFolders)
             showFoldersView()
         }
 
         btnCategoryFavorites.setOnClickListener {
+            updateTabHighlight(btnCategoryFavorites)
             val favs = allTracks.filter { it.isFavorite }
             showTracksView(favs, "المسارات المفضلة")
         }
@@ -141,12 +141,22 @@ class MainActivity : AppCompatActivity() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
                     player?.seekTo(progress.toLong())
-                    tvCurrentTime.text = formatTime(progress.toLong())
                 }
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
+    }
+
+    private fun updateTabHighlight(selectedButton: Button) {
+        val buttons = listOf(btnCategoryTracks, btnCategoryFolders, btnCategoryFavorites)
+        buttons.forEach { button ->
+            if (button == selectedButton) {
+                button.setTextColor(Color.parseColor("#FFB703"))
+            } else {
+                button.setTextColor(Color.parseColor("#FFFFFF"))
+            }
+        }
     }
 
     private fun checkPermissionAndLoad() {
@@ -199,6 +209,12 @@ class MainActivity : AppCompatActivity() {
             tvNowPlayingTitle.text = item.title
             tvNowPlayingArtist.text = item.artist
 
+            Glide.with(this)
+                .load(item.albumUri)
+                .placeholder(android.R.drawable.ic_media_play)
+                .error(android.R.drawable.ic_media_play)
+                .into(ivBottomAlbumArt)
+
             player?.let {
                 it.stop()
                 val mediaItem = MediaItem.fromUri(item.uri)
@@ -209,12 +225,6 @@ class MainActivity : AppCompatActivity() {
                 handler.post(updateProgressRunnable)
             }
         }
-    }
-
-    private fun formatTime(millis: Long): String {
-        val minutes = TimeUnit.MILLISECONDS.toMinutes(millis)
-        val seconds = TimeUnit.MILLISECONDS.toSeconds(millis) % 60
-        return String.format("%02d:%02d", minutes, seconds)
     }
 
     override fun onRequestPermissionsResult(

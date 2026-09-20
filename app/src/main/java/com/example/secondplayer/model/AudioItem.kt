@@ -8,6 +8,7 @@ data class AudioItem(
     val artist: String,
     val duration: Long,
     val uri: Uri,
+    val albumUri: Uri?,
     val folderName: String,
     var isFavorite: Boolean = false
 )
