@@ -1,34 +1,74 @@
 package com.example.secondplayer
 
 import android.Manifest
-import android.content.ComponentName
 import android.content.pm.PackageManager
-import android.content.res.ColorStateList
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.media3.common.MediaItem
-import androidx.media3.session.MediaController
-import androidx.media3.session.SessionToken
-import com.google.common.util.concurrent.ListenableFuture
-import com.google.common.util.concurrent.MoreExecutors
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.secondplayer.adapter.AudioAdapter
+import com.example.secondplayer.model.AudioItem
+import com.example.secondplayer.repository.MediaRepository
 
 class MainActivity : AppCompatActivity() {
 
-    private var mediaController: MediaController? = null
-    private lateinit var controllerFuture: ListenableFuture<MediaController>
+    private lateinit var repository: MediaRepository
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var tvNowPlaying: TextView
+    private lateinit var btnPlayPause: Button
+    private lateinit var etStreamUrl: EditText
+    private lateinit var btnPlayStream: Button
+
+    private var player: ExoPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        checkPermissions()
+        repository = MediaRepository(this)
+        player = ExoPlayer.Builder(this).build()
+
+        recyclerView = findViewById(R.id.recyclerView)
+        tvNowPlaying = findViewById(R.id.tvNowPlaying)
+        btnPlayPause = findViewById(R.id.btnPlayPause)
+        etStreamUrl = findViewById(R.id.etStreamUrl)
+        btnPlayStream = findViewById(R.id.btnPlayStream)
+
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        btnPlayPause.setOnClickListener {
+            player?.let {
+                if (it.isPlaying) {
+                    it.pause()
+                } else {
+                    it.play()
+                }
+            }
+        }
+
+        btnPlayStream.setOnClickListener {
+            val url = etStreamUrl.text.toString().trim()
+            if (url.isNotEmpty()) {
+                playAudioUri(Uri.parse(url), "بث مباشر: $url")
+            } else {
+                Toast.makeText(this, "يرجى أدخال رابط صحيح", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        checkPermissionAndLoad()
     }
 
-    private fun checkPermissions() {
+    private fun checkPermissionAndLoad() {
         val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             Manifest.permission.READ_MEDIA_AUDIO
         } else {
@@ -38,7 +78,30 @@ class MainActivity : AppCompatActivity() {
         if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(permission), 100)
         } else {
-            initMediaController()
+            loadAudioFiles()
+        }
+    }
+
+    private fun loadAudioFiles() {
+        val audioList = repository.fetchLocalAudioFiles()
+        if (audioList.isEmpty()) {
+            Toast.makeText(this, "لم يتم العثور على ملفات صوتية", Toast.LENGTH_SHORT).show()
+        } else {
+            val adapter = AudioAdapter(audioList) { selectedAudio ->
+                playAudioUri(selectedAudio.uri, selectedAudio.title)
+            }
+            recyclerView.adapter = adapter
+        }
+    }
+
+    private fun playAudioUri(uri: Uri, title: String) {
+        player?.let {
+            it.stop()
+            val mediaItem = MediaItem.fromUri(uri)
+            it.setMediaItem(mediaItem)
+            it.prepare()
+            it.play()
+            tvNowPlaying.text = "جاري التشغيل: $title"
         }
     }
 
@@ -49,50 +112,13 @@ class MainActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 100 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            initMediaController()
-        } else {
-            Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+            loadAudioFiles()
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        initMediaController()
-    }
-
-    private fun initMediaController() {
-        val sessionToken = SessionToken(
-            this,
-            ComponentName(this, PlaybackService::class.java)
-        )
-        controllerFuture = MediaController.Builder(this, sessionToken).buildAsync()
-        controllerFuture.addListener({
-            try {
-                mediaController = controllerFuture.get()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }, MoreExecutors.directExecutor())
-    }
-
-    fun playAudio(mediaItem: MediaItem) {
-        mediaController?.let { controller ->
-            controller.setMediaItems(listOf(mediaItem))
-            controller.prepare()
-            controller.play()
-        }
-    }
-
-    // مثال لتغيير لون زر بشكل صحيح دون أخطاء ColorStateList
-    fun setButtonColor(colorInt: Int) {
-        val colorStateList = ColorStateList.valueOf(colorInt)
-        // findViewById<Button>(R.id.playButton).backgroundTintList = colorStateList
-    }
-
-    override fun onStop() {
-        super.onStop()
-        if (::controllerFuture.isInitialized) {
-            MediaController.releaseFuture(controllerFuture)
-        }
+    override fun onDestroy() {
+        super.onDestroy()
+        player?.release()
+        player = null
     }
 }
