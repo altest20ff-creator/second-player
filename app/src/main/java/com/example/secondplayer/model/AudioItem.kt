@@ -6,9 +6,14 @@ data class AudioItem(
     val id: Long,
     val title: String,
     val artist: String,
-    val album: String,
     val duration: Long,
     val uri: Uri,
-    val albumArtUri: Uri?,
-    val isOnline: Boolean = false
+    val folderName: String,
+    var isFavorite: Boolean = false
+)
+
+data class FolderItem(
+    val folderName: String,
+    val trackCount: Int,
+    val tracks: List<AudioItem>
 )
