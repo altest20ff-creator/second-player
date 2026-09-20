@@ -4,13 +4,13 @@ import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
-import com.example.secondplayer.model.AudioItem
+import com.example.secondplayer.model.AudioTrack
 import java.io.File
 
 class MediaRepository(private val context: Context) {
 
-    fun fetchAllAudio(): List<AudioItem> {
-        val list = mutableListOf<AudioItem>()
+    fun loadAllTracks(): List<AudioTrack> {
+        val tracksList = mutableListOf<AudioTrack>()
         val collection = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
             MediaStore.Audio.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
         } else {
@@ -38,28 +38,40 @@ class MediaRepository(private val context: Context) {
             val albumIdCol = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID)
             val dataCol = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
 
-            val sArtworkUri = Uri.parse("content://media/external/audio/albumart")
+            val baseArtworkUri = Uri.parse("content://media/external/audio/albumart")
 
             while (cursor.moveToNext()) {
                 val id = cursor.getLong(idCol)
-                val title = cursor.getString(titleCol) ?: "مسار بدون عنوان"
+                val title = cursor.getString(titleCol) ?: "مسار صوتي"
                 val artist = cursor.getString(artistCol) ?: "فنان غير معروف"
-                val album = cursor.getString(albumCol) ?: "ألبوم غير معروف"
+                val album = cursor.getString(albumCol) ?: "ألبوم عام"
                 val duration = cursor.getLong(durationCol)
                 val albumId = cursor.getLong(albumIdCol)
                 val path = cursor.getString(dataCol) ?: ""
 
-                val albumUri = ContentUris.withAppendedId(sArtworkUri, albumId)
+                val albumArtUri = ContentUris.withAppendedId(baseArtworkUri, albumId).toString()
+                val mediaUri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id).toString()
+
                 val folderName = try {
-                    File(path).parentFile?.name ?: "مجلد عام"
+                    File(path).parentFile?.name ?: "مجلد آخر"
                 } catch (e: Exception) {
                     "مجلد عام"
                 }
 
-                val contentUri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id)
-                list.add(AudioItem(id, title, artist, album, duration, contentUri, albumUri, folderName))
+                tracksList.add(
+                    AudioTrack(
+                        id = id,
+                        title = title,
+                        artist = artist,
+                        album = album,
+                        duration = duration,
+                        mediaUriStr = mediaUri,
+                        albumArtUriStr = albumArtUri,
+                        folderName = folderName
+                    )
+                )
             }
         }
-        return list
+        return tracksList
     }
 }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0B0F19"
+    android:background="@color/bg_dark"
     android:padding="20dp">
 
     <RelativeLayout
@@ -17,15 +17,14 @@
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@android:drawable/ic_menu_revert"
-            android:tint="#FFFFFF"
+            android:tint="@color/text_white"
             android:layout_alignParentStart="true"/>
 
         <TextView
-            android:id="@+id/tvHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="مشغل الأغنية"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text_white"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_centerInParent="true"/>
@@ -36,26 +35,20 @@
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@android:drawable/ic_menu_preferences"
-            android:tint="#FFFFFF"
+            android:tint="@color/text_white"
             android:layout_alignParentEnd="true"/>
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/discContainer"
-        android:layout_width="280dp"
-        android:layout_height="280dp"
+        android:id="@+id/discArea"
+        android:layout_width="260dp"
+        android:layout_height="260dp"
         android:layout_below="@id/topBar"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="35dp">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:drawable/presence_online"
-            android:alpha="0.1"/>
-
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ivDiscAlbumArt"
+            android:id="@+id/ivVinylArt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
@@ -64,58 +57,49 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/infoLayout"
+        android:id="@+id/detailsArea"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/discContainer"
-        android:layout_marginTop="25dp"
+        android:layout_below="@id/discArea"
+        android:layout_marginTop="30dp"
         android:gravity="center"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvFullTitle"
+            android:id="@+id/tvPlayerTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="عنوان الأغنية"
-            android:textColor="#FFFFFF"
+            android:text="عنوان المسار"
+            android:textColor="@color/text_white"
             android:textSize="20sp"
             android:textStyle="bold"
             android:maxLines="1"
             android:ellipsize="end"/>
 
         <TextView
-            android:id="@+id/tvFullArtist"
+            android:id="@+id/tvPlayerArtist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="اسم الفنان"
-            android:textColor="#8E99B0"
+            android:textColor="@color/text_muted"
             android:textSize="14sp"
-            android:layout_marginTop="4dp"/>
-
-        <TextView
-            android:id="@+id/tvLyricsPrompt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="انقر للعثور على كلمات غنائية على الإنترنت"
-            android:textColor="#FFB703"
-            android:textSize="12sp"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginTop="6dp"/>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/progressArea"
+        android:id="@+id/seekArea"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/infoLayout"
-        android:layout_marginTop="30dp"
+        android:layout_below="@id/detailsArea"
+        android:layout_marginTop="25dp"
         android:orientation="vertical">
 
         <SeekBar
-            android:id="@+id/fullSeekBar"
+            android:id="@+id/playerSeekBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:progressTint="#FFB703"
-            android:thumbTint="#FFB703"/>
+            android:progressTint="@color/accent_gold"
+            android:thumbTint="@color/accent_gold"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -124,19 +108,19 @@
             android:paddingEnd="12dp">
 
             <TextView
-                android:id="@+id/tvCurrentTime"
+                android:id="@+id/tvCurTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"
-                android:textColor="#8E99B0"
+                android:textColor="@color/text_muted"
                 android:textSize="12sp"/>
 
             <TextView
-                android:id="@+id/tvTotalTime"
+                android:id="@+id/tvTotTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"
-                android:textColor="#8E99B0"
+                android:textColor="@color/text_muted"
                 android:textSize="12sp"
                 android:layout_alignParentEnd="true"/>
         </RelativeLayout>
@@ -145,52 +129,35 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/progressArea"
-        android:layout_marginTop="20dp"
+        android:layout_below="@id/seekArea"
+        android:layout_marginTop="25dp"
         android:gravity="center"
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/btnShuffle"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@android:drawable/ic_menu_directions"
-            android:tint="#8E99B0"/>
-
-        <ImageButton
-            android:id="@+id/btnPrevFull"
+            android:id="@+id/btnPrevTrack"
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@android:drawable/ic_media_previous"
-            android:tint="#FFFFFF"/>
+            android:tint="@color/text_white"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabPlayPause"
+            android:id="@+id/fabPlayerPlay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
-            android:layout_marginStart="15dp"
-            app:backgroundTint="#FFB703"
-            android:src="@android:drawable/ic_media_play"
-            app:fabSize="normal"/>
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            app:backgroundTint="@color/accent_gold"
+            android:src="@android:drawable/ic_media_play"/>
 
         <ImageButton
-            android:id="@+id/btnNextFull"
+            android:id="@+id/btnNextTrack"
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@android:drawable/ic_media_next"
-            android:tint="#FFFFFF"/>
-
-        <ImageButton
-            android:id="@+id/btnFavorite"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@android:drawable/btn_star"
-            android:tint="#8E99B0"/>
+            android:tint="@color/text_white"/>
     </LinearLayout>
 
 </RelativeLayout>

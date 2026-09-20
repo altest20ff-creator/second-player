@@ -3,89 +3,85 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#090C12">
+    android:background="@color/bg_dark">
 
-    <RelativeLayout
-        android:id="@+id/headerBar"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tvMainTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="مشغل الموسيقى"
-            android:textColor="#FFFFFF"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:layout_centerInParent="true"/>
-    </RelativeLayout>
+        android:text="مشغل الموسيقى"
+        android:textColor="@color/text_white"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="14dp"/>
 
     <LinearLayout
-        android:id="@+id/gridCategories"
+        android:id="@+id/categoryLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/headerBar"
+        android:layout_below="@id/tvMainTitle"
         android:orientation="horizontal"
-        android:weightSum="3"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:layout_marginBottom="12dp">
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:layout_marginBottom="10dp"
+        android:weightSum="3">
 
         <Button
-            android:id="@+id/btnCatTracks"
+            android:id="@+id/btnCategoryTracks"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
             android:text="🎵 المسارات"
-            android:textColor="#FFB703"
-            android:backgroundTint="#131A29"
+            android:textColor="@color/accent_gold"
+            android:backgroundTint="@color/card_bg"
             android:layout_marginEnd="4dp"/>
 
         <Button
-            android:id="@+id/btnCatFolders"
+            android:id="@+id/btnCategoryFolders"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
             android:text="📁 المجلدات"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#131A29"
+            android:textColor="@color/text_white"
+            android:backgroundTint="@color/card_bg"
             android:layout_marginEnd="4dp"/>
 
         <Button
-            android:id="@+id/btnCatFavs"
+            android:id="@+id/btnCategoryFavorites"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
             android:text="❤️ المفضلة"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#131A29"/>
+            android:textColor="@color/text_white"
+            android:backgroundTint="@color/card_bg"/>
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/listHeader"
+        android:id="@+id/statsHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/gridCategories"
+        android:layout_below="@id/categoryLayout"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:paddingBottom="8dp">
 
         <TextView
-            android:id="@+id/tvCurrentCategoryTitle"
+            android:id="@+id/tvSectionName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="جميع المسارات الصوتية"
-            android:textColor="#8F98B0"
-            android:textSize="14sp"/>
+            android:textColor="@color/text_muted"
+            android:textSize="13sp"/>
 
         <TextView
-            android:id="@+id/tvCount"
+            android:id="@+id/tvTrackCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0 مسار"
-            android:textColor="#FFB703"
-            android:textSize="14sp"
+            android:textColor="@color/accent_gold"
+            android:textSize="13sp"
             android:textStyle="bold"
             android:layout_alignParentEnd="true"/>
     </RelativeLayout>
@@ -94,33 +90,33 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/listHeader"
-        android:layout_above="@id/bottomPlayerCard"
-        android:padding="6dp"/>
+        android:layout_below="@id/statsHeader"
+        android:layout_above="@id/bottomBar"
+        android:padding="8dp"/>
 
     <RelativeLayout
-        android:id="@+id/bottomPlayerCard"
+        android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="68dp"
         android:layout_alignParentBottom="true"
-        android:background="#131926"
+        android:background="@color/card_bg"
         android:padding="8dp"
         android:clickable="true"
         android:focusable="true">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivBottomArt"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
             android:scaleType="centerCrop"
             android:src="@android:drawable/ic_media_play"
-            app:shapeAppearanceOverlay="@style/RoundedImageView"/>
+            app:shapeAppearanceOverlay="@style/RoundedImageStyle"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/ivBottomArt"
-            android:layout_toStartOf="@id/controls"
+            android:layout_toStartOf="@id/btnBottomPlay"
             android:layout_centerVertical="true"
             android:layout_marginStart="12dp"
             android:orientation="vertical">
@@ -130,7 +126,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="اختر مساراً للتشغيل"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/text_white"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:maxLines="1"
@@ -140,27 +136,21 @@
                 android:id="@+id/tvBottomArtist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="انقر لفتح المشغل الكامل"
-                android:textColor="#8F98B0"
+                android:text="اضغط لفتح الشاشة الكاملة"
+                android:textColor="@color/text_muted"
                 android:textSize="12sp"
                 android:maxLines="1"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/controls"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageButton
+            android:id="@+id/btnBottomPlay"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true">
-
-            <ImageButton
-                android:id="@+id/btnBottomPlayPause"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@android:drawable/ic_media_play"
-                android:tint="#FFB703"/>
-        </LinearLayout>
+            android:layout_centerVertical="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_media_play"
+            android:tint="@color/accent_gold"/>
     </RelativeLayout>
 
 </RelativeLayout>

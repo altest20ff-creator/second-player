@@ -8,11 +8,11 @@ object ThemeManager {
     private const val KEY_COLOR = "accent_color"
 
     val THEME_COLORS = listOf(
-        "#FFB703", // الذهبي الأصلي
-        "#9D4EDD", // الأرجواني الفاخر
-        "#00F5D4", // التيل الأخضر
-        "#00B4D8", // الأزرق السماوي
-        "#E63946"  // الأحادي العاطفي
+        "#FFB703", // ذهبي ساطع
+        "#9D4EDD", // أرجواني فاخر
+        "#00F5D4", // أخضر نيون
+        "#00B4D8", // أزرق سماوي
+        "#FF2E63"  // وردي توهج
     )
 
     fun getAccentColor(context: Context): Int {
