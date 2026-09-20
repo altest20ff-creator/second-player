@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- الألوان الأساسية للواجهات -->
     <color name="bg_dark">#080C14</color>
     <color name="card_bg">#121824</color>
     <color name="card_stroke">#1F293D</color>
@@ -8,7 +7,6 @@
     <color name="text_white">#FFFFFF</color>
     <color name="text_muted">#8E99B0</color>
 
-    <!-- الألوان والتدرجات العصرية الجديدة -->
     <color name="purple_500">#8B5CF6</color>
     <color name="purple_700">#6D28D9</color>
     <color name="teal_200">#06B6D4</color>
