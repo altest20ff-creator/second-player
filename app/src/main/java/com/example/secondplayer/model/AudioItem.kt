@@ -15,6 +15,12 @@ data class AudioItem(
     var isFavorite: Boolean = false
 ) : Serializable
 
+data class FolderItem(
+    val folderName: String,
+    val trackCount: Int,
+    val tracks: List<AudioItem>
+) : Serializable
+
 data class CategoryItem(
     val title: String,
     val countText: String,

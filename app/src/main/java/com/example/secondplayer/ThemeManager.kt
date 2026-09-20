@@ -7,13 +7,12 @@ object ThemeManager {
     private const val PREFS_NAME = "player_themes"
     private const val KEY_COLOR = "accent_color"
 
-    // الألوان المتاحة للثيمات (ذهبي، أرجواني، أخضر نيون، أزرق ساطع، أحمر)
     val THEME_COLORS = listOf(
-        "#FFB703", // الذهبي الاصلي
+        "#FFB703", // الذهبي الأصلي
         "#9D4EDD", // الأرجواني الفاخر
-        "#00F5D4", // التيل / الأخضر النيون
+        "#00F5D4", // التيل الأخضر
         "#00B4D8", // الأزرق السماوي
-        "#E63946"  # الأحادي العاطفي
+        "#E63946"  // الأحادي العاطفي
     )
 
     fun getAccentColor(context: Context): Int {
