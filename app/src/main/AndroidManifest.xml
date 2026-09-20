@@ -7,6 +7,7 @@
         android:allowBackup="true"
         android:label="second player"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.SecondPlayer">
         <activity
             android:name="com.example.secondplayer.MainActivity"
