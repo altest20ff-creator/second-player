@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0B0F19"
+    android:padding="20dp">
+
+    <RelativeLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_revert"
+            android:tint="#FFFFFF"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:id="@+id/tvHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="مشغل الأغنية"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"/>
+
+        <ImageButton
+            android:id="@+id/btnThemePicker"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_preferences"
+            android:tint="#FFFFFF"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/discContainer"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:layout_below="@id/topBar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:drawable/presence_online"
+            android:alpha="0.1"/>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivDiscAlbumArt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@android:drawable/ic_media_play"
+            app:shapeAppearanceOverlay="@style/CircleImageStyle"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/infoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/discContainer"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvFullTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="عنوان الأغنية"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end"/>
+
+        <TextView
+            android:id="@+id/tvFullArtist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="اسم الفنان"
+            android:textColor="#8E99B0"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"/>
+
+        <TextView
+            android:id="@+id/tvLyricsPrompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="انقر للعثور على كلمات غنائية على الإنترنت"
+            android:textColor="#FFB703"
+            android:textSize="12sp"
+            android:layout_marginTop="12dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/progressArea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/infoLayout"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical">
+
+        <SeekBar
+            android:id="@+id/fullSeekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progressTint="#FFB703"
+            android:thumbTint="#FFB703"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
+
+            <TextView
+                android:id="@+id/tvCurrentTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textColor="#8E99B0"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/tvTotalTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textColor="#8E99B0"
+                android:textSize="12sp"
+                android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/progressArea"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btnShuffle"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_directions"
+            android:tint="#8E99B0"/>
+
+        <ImageButton
+            android:id="@+id/btnPrevFull"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_media_previous"
+            android:tint="#FFFFFF"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabPlayPause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_marginStart="15dp"
+            app:backgroundTint="#FFB703"
+            android:src="@android:drawable/ic_media_play"
+            app:fabSize="normal"/>
+
+        <ImageButton
+            android:id="@+id/btnNextFull"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_media_next"
+            android:tint="#FFFFFF"/>
+
+        <ImageButton
+            android:id="@+id/btnFavorite"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/btn_star"
+            android:tint="#8E99B0"/>
+    </LinearLayout>
+
+</RelativeLayout>

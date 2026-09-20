@@ -5,201 +5,162 @@
     android:layout_height="match_parent"
     android:background="#090C12">
 
-    <TextView
-        android:id="@+id/tvHeaderTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="مشغل الموسيقى"
-        android:textColor="#FFFFFF"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="12dp"/>
-
-    <LinearLayout
-        android:id="@+id/categoryLayout"
+    <RelativeLayout
+        android:id="@+id/headerBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvHeaderTitle"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="مشغل الموسيقى"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/gridCategories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/headerBar"
         android:orientation="horizontal"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        android:layout_marginBottom="8dp"
-        android:weightSum="3">
+        android:weightSum="3"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:layout_marginBottom="12dp">
 
         <Button
-            android:id="@+id/btnCategoryTracks"
+            android:id="@+id/btnCatTracks"
             android:layout_width="0dp"
-            android:layout_height="45dp"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:text="🎵 المسارات"
-            android:textSize="12sp"
             android:textColor="#FFB703"
-            android:backgroundTint="#1B2232"
+            android:backgroundTint="#131A29"
             android:layout_marginEnd="4dp"/>
 
         <Button
-            android:id="@+id/btnCategoryFolders"
+            android:id="@+id/btnCatFolders"
             android:layout_width="0dp"
-            android:layout_height="45dp"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:text="📁 المجلدات"
-            android:textSize="12sp"
             android:textColor="#FFFFFF"
-            android:backgroundTint="#1B2232"
+            android:backgroundTint="#131A29"
             android:layout_marginEnd="4dp"/>
 
         <Button
-            android:id="@+id/btnCategoryFavorites"
+            android:id="@+id/btnCatFavs"
             android:layout_width="0dp"
-            android:layout_height="45dp"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:text="❤️ المفضلة"
-            android:textSize="12sp"
             android:textColor="#FFFFFF"
-            android:backgroundTint="#1B2232"/>
+            android:backgroundTint="#131A29"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/statsLayout"
+    <RelativeLayout
+        android:id="@+id/listHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/categoryLayout"
-        android:orientation="horizontal"
+        android:layout_below="@id/gridCategories"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:paddingBottom="8dp">
 
         <TextView
-            android:id="@+id/tvSectionTitle"
-            android:layout_width="0dp"
+            android:id="@+id/tvCurrentCategoryTitle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="جميع المسارات الصوتية"
             android:textColor="#8F98B0"
-            android:textSize="13sp"/>
+            android:textSize="14sp"/>
 
         <TextView
-            android:id="@+id/tvTrackCount"
+            android:id="@+id/tvCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0 مسار"
             android:textColor="#FFB703"
-            android:textSize="13sp"
-            android:textStyle="bold"/>
-    </LinearLayout>
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/statsLayout"
+        android:layout_below="@id/listHeader"
         android:layout_above="@id/bottomPlayerCard"
-        android:padding="8dp"/>
+        android:padding="6dp"/>
 
-    <!-- Bottom Mini-Player Bar with HD Album Thumbnail -->
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/bottomPlayerCard"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="68dp"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical"
         android:background="#131926"
-        android:elevation="10dp">
+        android:padding="8dp"
+        android:clickable="true"
+        android:focusable="true">
 
-        <SeekBar
-            android:id="@+id/seekBar"
-            android:layout_width="match_parent"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivBottomArt"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="centerCrop"
+            android:src="@android:drawable/ic_media_play"
+            app:shapeAppearanceOverlay="@style/RoundedImageView"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:progressTint="#FFB703"
-            android:thumbTint="#FFB703"
-            android:paddingStart="0dp"
-            android:paddingEnd="0dp"/>
+            android:layout_toEndOf="@id/ivBottomArt"
+            android:layout_toStartOf="@id/controls"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="12dp"
+            android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tvBottomTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="اختر مساراً للتشغيل"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+
+            <TextView
+                android:id="@+id/tvBottomArtist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="انقر لفتح المشغل الكامل"
+                android:textColor="#8F98B0"
+                android:textSize="12sp"
+                android:maxLines="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/controls"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/ivBottomAlbumArt"
-                android:layout_width="46dp"
-                android:layout_height="46dp"
-                android:layout_alignParentStart="true"
-                android:scaleType="centerCrop"
+            <ImageButton
+                android:id="@+id/btnBottomPlayPause"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@android:drawable/ic_media_play"
-                android:background="#1E2638"
-                app:shapeAppearanceOverlay="@style/RoundedImageView"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/ivBottomAlbumArt"
-                android:layout_toStartOf="@id/controlsLayout"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvNowPlayingTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="اختر مساراً للتشغيل"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:maxLines="1"
-                    android:ellipsize="end"/>
-
-                <TextView
-                    android:id="@+id/tvNowPlayingArtist"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Second Player"
-                    android:textColor="#8F98B0"
-                    android:textSize="12sp"
-                    android:maxLines="1"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/controlsLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:gravity="center_vertical">
-
-                <Button
-                    android:id="@+id/btnPrevious"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:text="⏮"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp"
-                    android:background="?attr/selectableItemBackgroundBorderless"/>
-
-                <Button
-                    android:id="@+id/btnPlayPause"
-                    android:layout_width="46dp"
-                    android:layout_height="46dp"
-                    android:text="⏯"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:backgroundTint="#FFB703"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginEnd="4dp"/>
-
-                <Button
-                    android:id="@+id/btnNext"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:text="⏭"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp"
-                    android:background="?attr/selectableItemBackgroundBorderless"/>
-            </LinearLayout>
-        </RelativeLayout>
-    </LinearLayout>
+                android:tint="#FFB703"/>
+        </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

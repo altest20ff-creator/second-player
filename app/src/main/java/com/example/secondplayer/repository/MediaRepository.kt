@@ -5,13 +5,12 @@ import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
 import com.example.secondplayer.model.AudioItem
-import com.example.secondplayer.model.FolderItem
 import java.io.File
 
 class MediaRepository(private val context: Context) {
 
-    fun fetchLocalAudioFiles(): List<AudioItem> {
-        val audioList = mutableListOf<AudioItem>()
+    fun fetchAllAudio(): List<AudioItem> {
+        val list = mutableListOf<AudioItem>()
         val collection = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
             MediaStore.Audio.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
         } else {
@@ -22,6 +21,7 @@ class MediaRepository(private val context: Context) {
             MediaStore.Audio.Media._ID,
             MediaStore.Audio.Media.TITLE,
             MediaStore.Audio.Media.ARTIST,
+            MediaStore.Audio.Media.ALBUM,
             MediaStore.Audio.Media.DURATION,
             MediaStore.Audio.Media.ALBUM_ID,
             MediaStore.Audio.Media.DATA
@@ -30,40 +30,36 @@ class MediaRepository(private val context: Context) {
         val selection = "${MediaStore.Audio.Media.IS_MUSIC} != 0"
 
         context.contentResolver.query(collection, projection, selection, null, null)?.use { cursor ->
-            val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)
-            val titleColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE)
-            val artistColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST)
-            val durationColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)
-            val albumIdColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID)
-            val dataColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
+            val idCol = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)
+            val titleCol = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE)
+            val artistCol = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST)
+            val albumCol = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM)
+            val durationCol = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)
+            val albumIdCol = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID)
+            val dataCol = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
 
             val sArtworkUri = Uri.parse("content://media/external/audio/albumart")
 
             while (cursor.moveToNext()) {
-                val id = cursor.getLong(idColumn)
-                val title = cursor.getString(titleColumn) ?: "مسار صوتي"
-                val artist = cursor.getString(artistColumn) ?: "فنان غير معروف"
-                val duration = cursor.getLong(durationColumn)
-                val albumId = cursor.getLong(albumIdColumn)
-                val path = cursor.getString(dataColumn) ?: ""
-                
+                val id = cursor.getLong(idCol)
+                val title = cursor.getString(titleCol) ?: "مسار بدون عنوان"
+                val artist = cursor.getString(artistCol) ?: "فنان غير معروف"
+                val album = cursor.getString(albumCol) ?: "ألبوم غير معروف"
+                val duration = cursor.getLong(durationCol)
+                val albumId = cursor.getLong(albumIdCol)
+                val path = cursor.getString(dataCol) ?: ""
+
                 val albumUri = ContentUris.withAppendedId(sArtworkUri, albumId)
                 val folderName = try {
-                    File(path).parentFile?.name ?: "المستندات العامة"
+                    File(path).parentFile?.name ?: "مجلد عام"
                 } catch (e: Exception) {
                     "مجلد عام"
                 }
 
                 val contentUri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id)
-                audioList.add(AudioItem(id, title, artist, duration, contentUri, albumUri, folderName))
+                list.add(AudioItem(id, title, artist, album, duration, contentUri, albumUri, folderName))
             }
         }
-        return audioList
-    }
-
-    fun getFolders(tracks: List<AudioItem>): List<FolderItem> {
-        return tracks.groupBy { it.folderName }.map { (folder, trackList) ->
-            FolderItem(folder, trackList.size, trackList)
-        }
+        return list
     }
 }
