@@ -1,154 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0B0E14">
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp">
 
-    <!-- Title Bar -->
     <TextView
-        android:id="@+id/tvHeaderTitle"
+        android:id="@+id/tvTrackCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="مشغل الموسيقى"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="12dp"/>
+        android:text="0 / 0"
+        android:textSize="18sp"
+        android:layout_marginBottom="16dp" />
 
-    <!-- Quick Navigation Categories (المسارات - المجلدات - المفضلة) -->
-    <LinearLayout
-        android:id="@+id/categoryLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvHeaderTitle"
-        android:orientation="horizontal"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        android:layout_marginBottom="8dp"
-        android:weightSum="3">
-
-        <Button
-            android:id="@+id/btnCategoryTracks"
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_weight="1"
-            android:text="🎵 المسارات"
-            android:textSize="12sp"
-            android:textColor="#FFB703"
-            android:backgroundTint="#161B26"
-            android:layout_marginEnd="4dp"/>
-
-        <Button
-            android:id="@+id/btnCategoryFolders"
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_weight="1"
-            android:text="📁 المجلدات"
-            android:textSize="12sp"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#161B26"
-            android:layout_marginEnd="4dp"/>
-
-        <Button
-            android:id="@+id/btnCategoryFavorites"
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_weight="1"
-            android:text="❤️ المفضلة"
-            android:textSize="12sp"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#161B26"/>
-    </LinearLayout>
-
-    <!-- Subtitle Status -->
     <TextView
-        android:id="@+id/tvSectionTitle"
-        android:layout_width="match_parent"
+        android:id="@+id/tvCurrentTime"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/categoryLayout"
-        android:text="جميع المسارات الصوتية"
-        android:textColor="#AAAAAA"
-        android:textSize="13sp"
-        android:paddingStart="16dp"
-        android:paddingBottom="8dp"/>
+        android:text="00:00"
+        android:textSize="16sp" />
 
-    <!-- Track & Folder List -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/tvSectionTitle"
-        android:layout_above="@id/bottomPlayerCard"
-        android:padding="8dp"/>
+    <TextView
+        android:id="@+id/tvTotalDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp" />
 
-    <!-- Bottom Player Bar -->
     <LinearLayout
-        android:id="@+id/bottomPlayerCard"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        android:background="#181E2A">
+        android:orientation="horizontal">
 
-        <SeekBar
-            android:id="@+id/seekBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:progressTint="#FFB703"
-            android:thumbTint="#FFB703"/>
+        <ImageButton
+            android:id="@+id/btnPrevious"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="Previous"
+            android:src="@android:drawable/ic_media_previous" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_toStartOf="@id/controlsLayout"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvNowPlayingTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="اختر مساراً للتشغيل"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:maxLines="1"
-                    android:ellipsize="end"/>
-
-                <TextView
-                    android:id="@+id/tvNowPlayingArtist"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Second Player"
-                    android:textColor="#AAAAAA"
-                    android:textSize="12sp"
-                    android:maxLines="1"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/controlsLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:gravity="center_vertical">
-
-                <Button
-                    android:id="@+id/btnPlayPause"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:text="⏯"
-                    android:textColor="#000000"
-                    android:textSize="18sp"
-                    android:backgroundTint="#FFB703"/>
-            </LinearLayout>
-        </RelativeLayout>
+        <ImageButton
+            android:id="@+id/btnNext"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="Next"
+            android:src="@android:drawable/ic_media_next"
+            android:layout_marginStart="16dp" />
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>
