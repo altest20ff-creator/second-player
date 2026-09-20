@@ -6,4 +6,7 @@
     <style name="RoundedImageStyle">
         <item name="cornerSize">14dp</item>
     </style>
+    <style name="RoundedImageView">
+        <item name="cornerSize">14dp</item>
+    </style>
 </resources>
